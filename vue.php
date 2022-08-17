@@ -8,48 +8,48 @@
 </head>
 <body>
 <h1>Premier League 2020</h1>
-<?php if (count($matches2)):?>
-<section>
-    <h2>Standings</h2>
-    <table>
-        <thead>
-        <tr>
-            <td></td>
-            <th scope="col">Team</th>
-            <th scope="col">Games</th>
-            <th scope="col">Points</th>
-            <th scope="col">Wins</th>
-            <th scope="col">Losses</th>
-            <th scope="col">Draws</th>
-            <th scope="col">GF</th>
-            <th scope="col">GA</th>
-            <th scope="col">GD</th>
-        </tr>
-        </thead>
-        <tbody>
-        <?php $i = 1 ?>
-        <?php foreach ($standings as $team => $teamStat): ?>
+<?php if (count($matches2)): ?>
+    <section>
+        <h2>Liste des matchs</h2>
+        <table>
+            <thead>
             <tr>
-                <td><?= $i ?></td>
-                <th scope="row"><?= $team ?></th>
-                <td><?= $teamStat['Games'] ?></td>
-                <td><?= $teamStat['Points'] ?></td>
-                <td><?= $teamStat['Wins'] ?></td>
-                <td><?= $teamStat['Losses'] ?></td>
-                <td><?= $teamStat['Draws'] ?></td>
-                <td><?= $teamStat['GF'] ?></td>
-                <td><?= $teamStat['GA'] ?></td>
-                <td><?= $teamStat['GD'] ?></td>
+                <td></td>
+                <th scope="col">Team</th>
+                <th scope="col">Games</th>
+                <th scope="col">Points</th>
+                <th scope="col">Wins</th>
+                <th scope="col">Losses</th>
+                <th scope="col">Draws</th>
+                <th scope="col">GF</th>
+                <th scope="col">GA</th>
+                <th scope="col">GD</th>
             </tr>
-            <?php $i += 1 ?>
-        <?php endforeach ?>
-        </tbody>
-    </table>
-</section>
-<?php endif?>
-<section>
+            </thead>
+            <tbody>
+            <?php $i = 1 ?>
+            <?php foreach ($standings as $team => $teamStat): ?>
+                <tr>
+                    <td><?= $i ?></td>
+                    <th scope="row"><?= $team ?></th>
+                    <td><?= $teamStat['Games'] ?></td>
+                    <td><?= $teamStat['Points'] ?></td>
+                    <td><?= $teamStat['Wins'] ?></td>
+                    <td><?= $teamStat['Losses'] ?></td>
+                    <td><?= $teamStat['Draws'] ?></td>
+                    <td><?= $teamStat['GF'] ?></td>
+                    <td><?= $teamStat['GA'] ?></td>
+                    <td><?= $teamStat['GD'] ?></td>
+                </tr>
+                <?php $i += 1 ?>
+            <?php endforeach ?>
+            </tbody>
+        </table>
+    </section>
+<?php endif ?>
+<?php if (count($matches2)): ?>
+    <section>
     <h2>Matchs joués au <?= TODAY ?></h2>
-    <?php if (count($matches2)):?>
     <table>
         <thead>
         <tr>
@@ -71,11 +71,11 @@
             </tr>
         <?php endforeach ?>
         </tbody>
-        <?php else:?>
-        <p>Aucun match n'a été joué à ce jour</p>
     </table>
-    <?php endif?>
-</section>
+<?php else: ?>
+    <p>Aucun match n'a été joué à ce jour</p>
+    </section>
+<?php endif ?>
 <section>
     <h2>Encodage d’un nouveau match</h2>
     <form action="index.php" method="post">
@@ -85,7 +85,7 @@
         <label for="home-team">Équipe à domicile</label>
         <select name="home-team" id="home-team">
             <?php foreach ($teams as $team) : ?>
-            <option value="<?= strtolower($team->id) ?>"><?= $team->name ?> [<?= $team->slug ?>]</option>
+                <option value="<?= strtolower($team->id) ?>"><?= $team->name ?> [<?= $team->slug ?>]</option>
             <?php endforeach ?>
         </select>
         <label for="home-team-unlisted">Équipe non listée&nbsp;?</label>
@@ -97,7 +97,7 @@
         <label for="away-team">Équipe visiteuse</label>
         <select name="away-team" id="away-team">
             <?php foreach ($teams as $team) : ?>
-            <option value="<?= strtolower($team->id) ?>"><?= $team->name ?> [<?= $team->slug ?>]</option>
+                <option value="<?= strtolower($team->id) ?>"><?= $team->name ?> [<?= $team->slug ?>]</option>
             <?php endforeach ?>
         </select>
         <label for="away-team-unlisted">Équipe non listée&nbsp;?</label>

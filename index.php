@@ -1,9 +1,12 @@
 <?php
 
 use function Team\all as allTeams;
-use function Match\save as saveMatch;
+
 use function Match\allWithTeams as allMatchesWithTeams;
 use function Match\allWithTeamsGrouped as allMatchesWithTeamsGrouped;
+
+use function matchControllers\store as storeMatch;
+use function teamControllers\store as storeTeam;
 
 require ('vendor/autoload.php');
 
@@ -15,29 +18,19 @@ require('utils/standings.php');
 require('models/team.php');
 require('models/match.php');
 
+require('controllers/matchController.php');
+require('controllers/teamController.php');
+
 $pdo = getConnection();
+
 
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST'){
     if (isset($_POST['action']) && isset($_POST['resource'])) {
         if ($_POST['action'] === 'store' && $_POST['resource'] === 'match') {
-
-            $matchDate = $_POST['match-date'];
-            $homeTeam = $_POST['home-team'] ;
-            $awayTeam = $_POST['away-team'];
-            $homeTeamGoals =  $_POST['home-team-goals'];;
-            $awayTeamGoals = $_POST['away-team-goals'];
-
-            $match = [
-                'date'=>$matchDate,
-                'home-team'=>$homeTeam,
-                'home-team-goal'=>$homeTeamGoals,
-                'away-team-goal'=>$awayTeamGoals,
-                'away-team'=>$awayTeam
-            ];
-            saveMatch($pdo,$match);
-            header('Location:index.php');
-            exit();
+            storeMatch($pdo);
+        }elseif ($_POST['action'] === 'store' && $_POST['resource'] === 'team'){
+            storeTeam ($pdo);
         }
     }
 }
