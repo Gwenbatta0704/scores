@@ -26,78 +26,22 @@
         </tr>
         </thead>
         <tbody>
-        <tr>
-            <td>1</td>
-            <th scope="row">Liverpool</th>
-            <td>4</td>
-            <td>12</td>
-            <td>4</td>
-            <td>0</td>
-            <td>0</td>
-            <td>10</td>
-            <td>0</td>
-            <td>10</td>
-        </tr>
-        <tr>
-            <td>2</td>
-            <th scope="row">Manchester City</th>
-            <td>4</td>
-            <td>10</td>
-            <td>3</td>
-            <td>0</td>
-            <td>1</td>
-            <td>12</td>
-            <td>4</td>
-            <td>8</td>
-        </tr>
-        <tr>
-            <td>3</td>
-            <th scope="row">Chelsea</th>
-            <td>4</td>
-            <td>8</td>
-            <td>2</td>
-            <td>0</td>
-            <td>2</td>
-            <td>9</td>
-            <td>5</td>
-            <td>4</td>
-        </tr>
-        <tr>
-            <td>4</td>
-            <th scope="row">Tottenham</th>
-            <td>4</td>
-            <td>7</td>
-            <td>2</td>
-            <td>1</td>
-            <td>1</td>
-            <td>7</td>
-            <td>7</td>
-            <td>0</td>
-        </tr>
-        <tr>
-            <td>5</td>
-            <th scope="row">Manchester United</th>
-            <td>4</td>
-            <td>2</td>
-            <td>1</td>
-            <td>2</td>
-            <td>1</td>
-            <td>2</td>
-            <td>6</td>
-            <td>-4</td>
-        </tr>
-        <tr>
-            <td>6</td>
-            <th scope="row">Arsenal</th>
-            <td>4</td>
-            <td>0</td>
-            <td>0</td>
-            <td>4</td>
-            <td>0</td>
-            <td>2</td>
-            <td>12</td>
-            <td>-10</td>
-        </tr>
+        <?php $i = 1 ?>
+        <?php foreach ($standings as $team => $teamStat): ?>
+            <tr>
+                <td><?= $i ?></td>
+                <th scope="row"><?= $team ?></th>
+                <td><?= $teamStat['Games'] ?></td>
+                <td><?= $teamStat['Points'] ?></td>
+                <td><?= $teamStat['Wins'] ?></td>
+                <td><?= $teamStat['Losses'] ?></td>
+                <td><?= $teamStat['Draws'] ?></td>
+                <td><?= $teamStat['GF'] ?></td>
+                <td><?= $teamStat['GA'] ?></td>
+                <td><?= $teamStat['GD'] ?></td>
+            </tr>
+            <?php $i += 1 ?>
+        <?php endforeach ?>
         </tbody>
     </table>
 </section>
@@ -106,19 +50,23 @@
     <table>
         <thead>
         <tr>
-            <th>Date</th><th>Home Team</th><th>Home Team Goals</th><th>Away Team Goals</th><th>Away Team</th>
+            <th>Date</th>
+            <th>Home Team</th>
+            <th>Home Team Goals</th>
+            <th>Away Team Goals</th>
+            <th>Away Team</th>
         </tr>
         </thead>
         <tbody>
-            <?php foreach ($matches as $match):?>
-        <tr>
-            <td><?= (new DateTime($match['match-date']))->format('d m Y') ?></td>
-            <td><?= $match['home-team'] ?></td>
-            <td><?= $match['home-team-goals'] ?></td>
-            <td><?= $match['away-team-goals'] ?></td>
-            <td><?= $match['away-team'] ?></td>
-        </tr>
-            <?php endforeach?>
+        <?php foreach ($matches as $match): ?>
+            <tr>
+                <td><?= (new DateTime($match['match-date'], new DateTimeZone('Europe/Brussels')))->format('d m Y') ?></td>
+                <td><?= $match['home-team'] ?></td>
+                <td><?= $match['home-team-goals'] ?></td>
+                <td><?= $match['away-team-goals'] ?></td>
+                <td><?= $match['away-team'] ?></td>
+            </tr>
+        <?php endforeach ?>
         </tbody>
     </table>
 </section>
