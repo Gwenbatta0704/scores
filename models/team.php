@@ -18,3 +18,4 @@ function find(\PDO $connection, string $id): \stdClass
 
     return $pdoSt->fetch();
 }
+

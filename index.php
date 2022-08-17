@@ -1,6 +1,7 @@
 <?php
 
 use function Team\all as allTeams;
+use function Match\save as saveMatch;
 use function Match\allWithTeams as allMatchesWithTeams;
 use function Match\allWithTeamsGrouped as allMatchesWithTeamsGrouped;
 
@@ -21,13 +22,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
         if ($_POST['action'] === 'store' && $_POST['resource'] === 'match') {
 
             $matchDate = $_POST['match-date'];
-            $homeTeam = ucfirst($_POST['home-team-unlisted']) === '' ? ucfirst($_POST['home-team']) : ucfirst($_POST['home-team-unlisted']) ;
-            $awayTeam = ucfirst($_POST['away-team-unlisted']) === '' ? ucfirst($_POST['away-team']) : ucfirst($_POST['away-team-unlisted']) ;
+            $homeTeam = $_POST['home-team'] ;
+            $awayTeam = $_POST['away-team'];
             $homeTeamGoals =  $_POST['home-team-goals'];;
             $awayTeamGoals = $_POST['away-team-goals'];
 
-            $match = [$matchDate, $homeTeam, $homeTeamGoals, $awayTeamGoals, $awayTeam];
-
+            $match = [
+                'date'=>$matchDate,
+                'home-team'=>$homeTeam,
+                'home-team-goal'=>$homeTeamGoals,
+                'away-team-goal'=>$awayTeamGoals,
+                'away-team'=>$awayTeam
+            ];
+            saveMatch($pdo,$match);
+            header('Location:index.php');
+            exit();
         }
     }
 }
