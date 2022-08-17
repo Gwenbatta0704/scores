@@ -72,18 +72,15 @@
 </section>
 <section>
     <h2>Encodage d’un nouveau match</h2>
-    <form action="/" method="post">
+    <form action="manage.php" method="post">
         <label for="match-date">Date du match</label>
-        <input type="text" id="match-date" name="match-date">
+        <input type="text" id="match-date" name="match-date" placeholder="2022-05-26">
         <br>
         <label for="home-team">Équipe à domicile</label>
         <select name="home-team" id="home-team">
-            <option value="arsenal">Arsenal</option>
-            <option value="chelsea">Chelsea</option>
-            <option value="liverpool">Liverpool</option>
-            <option value="manchester%20city">Manchester City</option>
-            <option value="manchester%20united">Manchester United</option>
-            <option value="tottenham">Tottenham</option>
+            <?php foreach ($teams as $team) :?>
+            <option value="<?= strtolower($team)?>"><?=$team?></option>
+            <?php endforeach?>
         </select>
         <label for="home-team-unlisted">Équipe non listée&nbsp;?</label>
         <input type="text" name="home-team-unlisted" id="home-team-unlisted">
@@ -93,12 +90,9 @@
         <br>
         <label for="away-team">Équipe visiteuse</label>
         <select name="away-team" id="away-team">
-            <option value="arsenal">Arsenal</option>
-            <option value="chelsea">Chelsea</option>
-            <option value="liverpool">Liverpool</option>
-            <option value="manchester%20city">Manchester City</option>
-            <option value="manchester%20united">Manchester United</option>
-            <option value="tottenham">Tottenham</option>
+            <?php foreach ($teams as $team) :?>
+                <option value="<?=strtolower($team)?>"><?=$team?></option>
+            <?php endforeach?>
         </select>
         <label for="away-team-unlisted">Équipe non listée&nbsp;?</label>
         <input type="text" name="away-team-unlisted" id="away-team-unlisted">
@@ -106,6 +100,8 @@
         <label for="away-team-goals">Goals de l’équipe visiteuse</label>
         <input type="text" id="away-team-goals" name="away-team-goals">
         <br>
+        <input type="hidden" name="action" value="store">
+        <input type="hidden" name="resource" value="match">
         <input type="submit" value="Ajouter ce match">
     </form>
 </section>

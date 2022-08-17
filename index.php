@@ -1,8 +1,6 @@
 <?php
 define('TODAY', (new DateTime('now', new DateTimeZone('Europe/Brussels')))->format('M jS, Y'));
-
-
-$filePath = 'matches.csv';
+const FILEPATH = 'matches.csv';
 $matches = [];
 $standings = [];
 $teams = [];
@@ -21,18 +19,21 @@ function getEmptyStatArray(): array
     ];
 }
 
-$handle = fopen($filePath, 'r'); //mode read -> lecture
+$handle = fopen(FILEPATH, 'r'); //mode read -> lecture
 $headers = fgetcsv($handle, 1000);
+
 // boucle qui créer les équipe
 while ($line = fgetcsv($handle, 1000)) {
     $match = array_combine($headers, $line);
     $matches[] = $match; // égale un push en JS
     $homeTeam = $match['home-team'];
     $awayTeam = $match['away-team'];
+
     // si homeTeam n'existe pas encore -> push dasn $standings
     if (!(array_key_exists($homeTeam, $standings))){
         $standings[$homeTeam] = getEmptyStatArray();
     }
+
     // si awayTeam n'existe pas encore -> push dasn $standings
     if (!(array_key_exists($awayTeam, $standings))){
         $standings[$awayTeam] = getEmptyStatArray();
@@ -60,6 +61,7 @@ while ($line = fgetcsv($handle, 1000)) {
         $standings[$homeTeam]['Losses']++;
         $standings[$awayTeam]['Wins']++;
     }
+
     // Compte nombre de goals
     $standings[$homeTeam]['GF']+= $match['home-team-goals'];
     $standings[$homeTeam]['GA']+= $match['away-team-goals'];
@@ -68,6 +70,7 @@ while ($line = fgetcsv($handle, 1000)) {
     $standings[$homeTeam]['GD'] = $standings[$homeTeam]['GF'] - $standings[$homeTeam]['GA'];
     $standings[$awayTeam]['GD'] = $standings[$awayTeam]['GF'] - $standings[$awayTeam]['GA'];
 }
+
 //réorganiser le tableau
 uasort($standings,function ($a,$b){
     if ($a['Points'] === $b['Points']){
@@ -78,6 +81,6 @@ uasort($standings,function ($a,$b){
 });
 
 $teams = array_keys($standings);
+sort($teams);
 
-var_dump($teams);
 require('vue.php');
