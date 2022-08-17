@@ -5,6 +5,7 @@ use function Match\save as saveMatch;
 use function Match\allWithTeams as allMatchesWithTeams;
 use function Match\allWithTeamsGrouped as allMatchesWithTeamsGrouped;
 
+require ('vendor/autoload.php');
 
 require('configs/config.php');
 

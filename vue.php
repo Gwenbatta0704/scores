@@ -8,6 +8,7 @@
 </head>
 <body>
 <h1>Premier League 2020</h1>
+<?php if (count($matches2)):?>
 <section>
     <h2>Standings</h2>
     <table>
@@ -45,22 +46,24 @@
         </tbody>
     </table>
 </section>
+<?php endif?>
 <section>
-    <h2>Games played at <?= TODAY ?></h2>
+    <h2>Matchs joués au <?= TODAY ?></h2>
+    <?php if (count($matches2)):?>
     <table>
         <thead>
         <tr>
             <th>Date</th>
-            <th>Home Team</th>
-            <th>Home Team Goals</th>
-            <th>Away Team Goals</th>
-            <th>Away Team</th>
+            <th>Équipe visitée</th>
+            <th>Goals de l'équipe visitée</th>
+            <th>Goals de l'équipe visiteuse</th>
+            <th>Équipe visiteuse</th>
         </tr>
         </thead>
         <tbody>
         <?php foreach ($matches2 as $match): ?>
             <tr>
-                <td><?= $match->match_date->format('d F Y')  ?></td>
+                <td><?= $match->match_date->format('d F Y') ?></td>
                 <td><?= $match->home_team ?></td>
                 <td><?= $match->home_team_goals ?></td>
                 <td><?= $match->away_team_goals ?></td>
@@ -68,7 +71,10 @@
             </tr>
         <?php endforeach ?>
         </tbody>
+        <?php else:?>
+        <p>Aucun match n'a été joué à ce jour</p>
     </table>
+    <?php endif?>
 </section>
 <section>
     <h2>Encodage d’un nouveau match</h2>
@@ -78,9 +84,9 @@
         <br>
         <label for="home-team">Équipe à domicile</label>
         <select name="home-team" id="home-team">
-            <?php foreach ($teams as $team) :?>
-            <option value="<?= strtolower($team->id)?>"><?=$team->name?> [<?=$team->slug?>]</option>
-            <?php endforeach?>
+            <?php foreach ($teams as $team) : ?>
+            <option value="<?= strtolower($team->id) ?>"><?= $team->name ?> [<?= $team->slug ?>]</option>
+            <?php endforeach ?>
         </select>
         <label for="home-team-unlisted">Équipe non listée&nbsp;?</label>
         <input type="text" name="home-team-unlisted" id="home-team-unlisted">
@@ -90,9 +96,9 @@
         <br>
         <label for="away-team">Équipe visiteuse</label>
         <select name="away-team" id="away-team">
-            <?php foreach ($teams as $team) :?>
-                <option value="<?= strtolower($team->id)?>"><?=$team->name?> [<?=$team->slug?>]</option>
-            <?php endforeach?>
+            <?php foreach ($teams as $team) : ?>
+            <option value="<?= strtolower($team->id) ?>"><?= $team->name ?> [<?= $team->slug ?>]</option>
+            <?php endforeach ?>
         </select>
         <label for="away-team-unlisted">Équipe non listée&nbsp;?</label>
         <input type="text" name="away-team-unlisted" id="away-team-unlisted">
