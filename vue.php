@@ -102,7 +102,7 @@
     </table>
 </section>
 <section>
-    <h2>Games played at april 2nd, 2020</h2>
+    <h2>Games played at <?= TODAY ?></h2>
     <table>
         <thead>
         <tr>
@@ -112,7 +112,7 @@
         <tbody>
             <?php foreach ($matches as $match):?>
         <tr>
-            <td><?= $match['match-date'] ?></td>
+            <td><?= (new DateTime($match['match-date']))->format('d m Y') ?></td>
             <td><?= $match['home-team'] ?></td>
             <td><?= $match['home-team-goals'] ?></td>
             <td><?= $match['away-team-goals'] ?></td>
