@@ -6,34 +6,20 @@ use function Match\allWithTeamsGrouped as allMatchesWithTeamsGrouped;
 
 
 require('configs/config.php');
+
 require('utils/dbaccess.php');
+require('utils/standings.php');
 
 require('models/team.php');
 require('models/match.php');
 
 $pdo = getConnection();
 
-define('TODAY', (new DateTime('now', new DateTimeZone('Europe/Brussels')))->format('M jS, Y'));
-
 $standings = [];
-
 $matches2 = allMatchesWithTeamsGrouped(allMatchesWithTeams($pdo));
-
 $teams = allTeams($pdo);
 
-function getEmptyStatArray(): array
-{
-    return [
-        'Games' => 0,
-        'Points' => 0,
-        'Wins' => 0,
-        'Losses' => 0,
-        'Draws' => 0,
-        'GF' => 0,
-        'GA' => 0,
-        'GD' => 0,
-    ];
-}
+
 
 foreach ($matches2 as $match){
     $homeTeam = $match->home_team;
