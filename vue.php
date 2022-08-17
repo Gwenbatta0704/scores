@@ -72,7 +72,7 @@
 </section>
 <section>
     <h2>Encodage d’un nouveau match</h2>
-    <form action="manage.php" method="post">
+    <form action="index.php" method="post">
         <label for="match-date">Date du match</label>
         <input type="text" id="match-date" name="match-date" placeholder="2022-05-26">
         <br>
