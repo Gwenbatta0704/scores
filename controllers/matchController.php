@@ -1,5 +1,7 @@
 <?php
+
 namespace matchControllers;
+require('models/match.php');
 
 use function Match\save as saveMatch;
 

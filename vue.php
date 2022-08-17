@@ -8,7 +8,7 @@
 </head>
 <body>
 <h1>Premier League 2020</h1>
-<?php if (count($matches2)): ?>
+<?php if (count($data['standings'])): ?>
     <section>
         <h2>Liste des matchs</h2>
         <table>
@@ -28,7 +28,7 @@
             </thead>
             <tbody>
             <?php $i = 1 ?>
-            <?php foreach ($standings as $team => $teamStat): ?>
+            <?php foreach ($data['standings'] as $team => $teamStat): ?>
                 <tr>
                     <td><?= $i ?></td>
                     <th scope="row"><?= $team ?></th>
@@ -47,7 +47,7 @@
         </table>
     </section>
 <?php endif ?>
-<?php if (count($matches2)): ?>
+<?php if (count($data['matches'])): ?>
     <section>
     <h2>Matchs joués au <?= TODAY ?></h2>
     <table>
@@ -61,7 +61,7 @@
         </tr>
         </thead>
         <tbody>
-        <?php foreach ($matches2 as $match): ?>
+        <?php foreach ($data['matches'] as $match): ?>
             <tr>
                 <td><?= $match->match_date->format('d F Y') ?></td>
                 <td><?= $match->home_team ?></td>
@@ -84,7 +84,7 @@
         <br>
         <label for="home-team">Équipe à domicile</label>
         <select name="home-team" id="home-team">
-            <?php foreach ($teams as $team) : ?>
+            <?php foreach ($data['teams'] as $team) : ?>
                 <option value="<?= strtolower($team->id) ?>"><?= $team->name ?> [<?= $team->slug ?>]</option>
             <?php endforeach ?>
         </select>
@@ -96,7 +96,7 @@
         <br>
         <label for="away-team">Équipe visiteuse</label>
         <select name="away-team" id="away-team">
-            <?php foreach ($teams as $team) : ?>
+            <?php foreach ($data['teams'] as $team) : ?>
                 <option value="<?= strtolower($team->id) ?>"><?= $team->name ?> [<?= $team->slug ?>]</option>
             <?php endforeach ?>
         </select>

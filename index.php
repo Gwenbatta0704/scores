@@ -1,102 +1,40 @@
 <?php
 
-use function Team\all as allTeams;
 
-use function Match\allWithTeams as allMatchesWithTeams;
-use function Match\allWithTeamsGrouped as allMatchesWithTeamsGrouped;
+require('./vendor/autoload.php');
 
-use function matchControllers\store as storeMatch;
-use function teamControllers\store as storeTeam;
+require('./configs/config.php');
+require('./utils/dbaccess.php');
+require('./utils/standings.php');
 
-require ('vendor/autoload.php');
-
-require('configs/config.php');
-
-require('utils/dbaccess.php');
-require('utils/standings.php');
-
-require('models/team.php');
-require('models/match.php');
-
-require('controllers/matchController.php');
-require('controllers/teamController.php');
 
 $pdo = getConnection();
 
+$route = require('./utils/router.php');
 
+$data = call_user_func($route['callback'], $pdo);
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST'){
-    if (isset($_POST['action']) && isset($_POST['resource'])) {
-        if ($_POST['action'] === 'store' && $_POST['resource'] === 'match') {
-            storeMatch($pdo);
-        }elseif ($_POST['action'] === 'store' && $_POST['resource'] === 'team'){
-            storeTeam ($pdo);
-        }
-    }
-}
-else if ($_SERVER['REQUEST_METHOD'] === 'GET'){
-    if (!isset($_GET['action']) && !isset($_GET['resource'])){
-        $standings = [];
-        $matches2 = allMatchesWithTeamsGrouped(allMatchesWithTeams($pdo));
-        $teams = allTeams($pdo);
+require('./controllers/'.$route['controller'].'php');
 
-        foreach ($matches2 as $match){
-            $homeTeam = $match->home_team;
-            $awayTeam = $match->away_team;
-            // si homeTeam n'existe pas encore -> push dasn $standings
-            if (!(array_key_exists($homeTeam, $standings))){
-                $standings[$homeTeam] = getEmptyStatArray();
-            }
+extract($data, EXTR_OVERWRITE);
 
-            // si awayTeam n'existe pas encore -> push dasn $standings
-            if (!(array_key_exists($awayTeam, $standings))){
-                $standings[$awayTeam] = getEmptyStatArray();
-            }
-            // Compte nombre de match TOTAL
-            $standings[$homeTeam]['Games']++;
-            $standings[$awayTeam]['Games']++;
-            //Compte nombre match NUL
-            if ($match->home_team_goals === $match->away_team_goals){
-                $standings[$homeTeam]['Points']++;
-                $standings[$awayTeam]['Points']++;
-                $standings[$homeTeam]['Draws']++;
-                $standings[$awayTeam]['Draws']++;
-            }
+require($view);
 
-            // Compte  Victoire et Defaite
-            else if ($match->home_team_goals > $match->away_team_goals){
-                $standings[$homeTeam]['Points']+=3;
-                $standings[$homeTeam]['Wins']++;
-                $standings[$awayTeam]['Losses']++;
-
-            }else{
-                $standings[$awayTeam]['Points']+=3;
-                $standings[$homeTeam]['Losses']++;
-                $standings[$awayTeam]['Wins']++;
-            }
-
-            // Compte nombre de goals
-            $standings[$homeTeam]['GF']+= $match->home_team_goals;
-            $standings[$homeTeam]['GA']+= $match->away_team_goals;
-            $standings[$awayTeam]['GF']+= $match->away_team_goals;
-            $standings[$awayTeam]['GA']+= $match->home_team_goals;
-            $standings[$homeTeam]['GD'] = $standings[$homeTeam]['GF'] - $standings[$homeTeam]['GA'];
-            $standings[$awayTeam]['GD'] = $standings[$awayTeam]['GF'] - $standings[$awayTeam]['GA'];
-        }
-        //réorganiser le tableau
-        uasort($standings,function ($a,$b){
-            if ($a['Points'] === $b['Points']){
-                return 0;
-            }
-            return $a['Points'] > $b['Points'] ? -1 : 1;
-
-        });
-    }
-
-}
-else{
-    header('Location:index.php');
-    exit();
-}
-
-require('vue.php');
+//if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+//    if (isset($_POST['action']) && isset($_POST['resource'])) {
+//        if ($_POST['action'] === 'store' && $_POST['resource'] === 'match') {
+//            storeMatch($pdo);
+//        } elseif ($_POST['action'] === 'store' && $_POST['resource'] === 'team') {
+//            storeTeam($pdo);
+//        }
+//    }
+//} else if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+//    if (!isset($_GET['action']) && !isset($_GET['resource'])) {
+//        $data = dashboardPage($pdo);
+//    }
+//
+//} else {
+//    header('Location:index.php');
+//    exit();
+//}
+//
