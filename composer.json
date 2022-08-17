@@ -1,0 +1,19 @@
+{
+    "name": "gwen/scores",
+    "require": {
+        "nesbot/carbon": "^2.58",
+        "intervention/image": "^2.7"
+    },
+    "authors": [
+        {
+            "name": "noemievincent",
+            "email": "noemie.vincent1@student.hepl.be"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Models\\": "models/",
+            "Controllers\\": "controllers/"
+        }
+    }
+}
