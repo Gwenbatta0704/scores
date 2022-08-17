@@ -79,7 +79,7 @@
         <label for="home-team">Équipe à domicile</label>
         <select name="home-team" id="home-team">
             <?php foreach ($teams as $team) :?>
-            <option value="<?= strtolower($team)?>"><?=$team?></option>
+            <option value="<?= strtolower($team->id)?>"><?=$team->name?> [<?=$team->slug?>]</option>
             <?php endforeach?>
         </select>
         <label for="home-team-unlisted">Équipe non listée&nbsp;?</label>
@@ -91,7 +91,7 @@
         <label for="away-team">Équipe visiteuse</label>
         <select name="away-team" id="away-team">
             <?php foreach ($teams as $team) :?>
-                <option value="<?=strtolower($team)?>"><?=$team?></option>
+                <option value="<?= strtolower($team->id)?>"><?=$team->name?> [<?=$team->slug?>]</option>
             <?php endforeach?>
         </select>
         <label for="away-team-unlisted">Équipe non listée&nbsp;?</label>
